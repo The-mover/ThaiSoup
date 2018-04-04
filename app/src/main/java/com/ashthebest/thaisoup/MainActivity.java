@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import org.jsoup.Jsoup;
@@ -17,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Button getBtn;
     private TextView result;
+    private EditText editText;
+    private String s = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +28,12 @@ public class MainActivity extends AppCompatActivity {
 
         result = (TextView) findViewById(R.id.result);
         getBtn = (Button) findViewById(R.id.getBtn);
+        editText = (EditText) findViewById(R.id.edittext);
 
         getBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                s = editText.getText().toString();
                 getWebsite();
             }
         });
@@ -41,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
                 final StringBuilder builder = new StringBuilder();
 
                 try {
-                    Document doc = Jsoup.connect("https://www.codechef.com/users/fake_death").get();
+                    String url = "https://www.codechef.com/users/" + s;
+                    Document doc = Jsoup.connect(url).get();
                     //String title = doc.title();
                     //Elements links = doc.select("a[href]");
                     Elements elements = doc.getElementsByClass("rating-number");
